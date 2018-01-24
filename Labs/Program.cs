@@ -1,11 +1,13 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Labs
+namespace laba2
 {
+    public delegate void myDel(laba2.ITransport ship);
     static class Program
     {
         /// <summary>

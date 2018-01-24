@@ -8,13 +8,166 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Labs
+namespace laba2
 {
     public partial class Form1 : Form
     {
+        Parking port;
+        additionalForm addiForm;
+
         public Form1()
         {
             InitializeComponent();
+            port = new Parking(4);
+            for(int i=1; i<5; i++)
+            {
+                listBox1.Items.Add("Уровень " + i);
+            }
+            listBox1.SelectedIndex = port.getCurentLvl;
+            Draw();
+
+        }
+
+        private void Draw()
+        {
+            if (listBox1.SelectedIndex > -1)
+            {
+                Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                Graphics grf = Graphics.FromImage(bmp);
+                port.Draw(grf);
+                pictureBox1.Image = bmp;
+            }
+        }
+
+
+
+
+
+        private void putBoatInDock_Click(object sender, EventArgs e)
+        {
+            ColorDialog colDialog = new ColorDialog();
+            if (colDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var boat = new MotorShip(100, 4, 1000, colDialog.Color);
+                int place = port.PutShipInParking(boat);
+                Draw();
+                MessageBox.Show("Судно в доке с номером:" + (place+1));
+
+            }
+        }
+
+        private void putShipInDock_Click(object sender, EventArgs e)
+        {
+            ColorDialog colDialog = new ColorDialog();
+            if (colDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ColorDialog dialogDop = new ColorDialog();
+                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var sail_boat = new UltaMegaBuffSuperMotorShip(100, 4, 1000, colDialog.Color, true, true, dialogDop.Color);
+                    int place = port.PutShipInParking(sail_boat);
+                    Draw();
+                    MessageBox.Show("Парусник в доке с номером:" + (place+1));
+                }
+
+            }
+        }
+
+        private void TakeBoat_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex > -1)
+            {
+                string stage = listBox1.Items[listBox1.SelectedIndex].ToString();
+                if (maskedTextBox1.Text != "")
+                {
+                    var boat = port.GetShipInParking(Convert.ToInt32(maskedTextBox1.Text)-1);
+                    if (boat != null)
+                    {
+                        Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+                        Graphics gr = Graphics.FromImage(bmp);
+                        boat.sePosition(0, 80);
+                        boat.drawShip(gr);
+                        pictureBox2.Image = bmp;
+                        Draw();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Тут ничего нет");
+                    }
+                }
+            }
+        }
+
+        private void nextBtn_Click(object sender, EventArgs e)
+        {
+            port.lvlUp();
+            listBox1.SelectedIndex = port.getCurentLvl;
+            Draw();
+        }
+
+        private void previousBtn_Click(object sender, EventArgs e)
+        {
+            port.lvlDown();
+            listBox1.SelectedIndex = port.getCurentLvl;
+            Draw();
+        }
+
+        private void orderBtn_Click(object sender, EventArgs e)
+        {
+            addiForm = new additionalForm();
+            addiForm.AddEvent(addBoat);
+            addiForm.Show();
+        }
+
+        private void addBoat(ITransport boat) {
+            if (boat != null)
+            {
+                int place = port.PutShipInParking(boat);
+                if (place > -1)
+                {
+                    Draw();
+                    MessageBox.Show("Ваше место:" + (place+1));
+                }
+                else
+                {
+                    MessageBox.Show("Поставить не получилось");
+                }
+            }
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (port.SaveData(saveFileDialog1.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "",
+                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (port.LoadData(openFileDialog1.FileName))
+                {
+                    Draw();
+                    MessageBox.Show("Загружено", "",
+                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка", "",
+                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
