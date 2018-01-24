@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace laba2
 {
-    class UltaMegaBuffSuperMotorShip : MotorShip
+    class UltaMegaBuffSuperMotorShip : MotorShip, IComparable<UltaMegaBuffSuperMotorShip>, IEquatable<MotorShip>
     {
         private bool pipe;
         private bool boats;
@@ -38,6 +38,10 @@ namespace laba2
         }
 
 
+
+
+
+
         protected override void drawLightShip(Graphics g)
         {
             base.drawLightShip(g);
@@ -65,5 +69,72 @@ namespace laba2
             return MaxSpeed + ";" + MaxCountPassengers + ";" + Weight + ";" +
                 ColorBody.Name + ";" + pipe + ";" + boats + ";" + selfColor.Name;
         }
+
+        public int CompareTo(UltaMegaBuffSuperMotorShip other)
+        {
+            var res = (this is MotorShip).CompareTo(other is MotorShip);
+            if(res != 0)
+            {
+                return res;
+            }
+            if(pipe != other.pipe)
+            {
+                return pipe.CompareTo(other.pipe);
+            }
+            if(boats != other.boats)
+            {
+                return boats.CompareTo(other.boats);
+            }
+            if(selfColor != other.selfColor)
+            {
+                return selfColor.Name.CompareTo(other.selfColor.Name);
+            }
+            return 0;
+        }
+
+        public bool Equals (UltaMegaBuffSuperMotorShip other)
+        {
+            var res = (this is MotorShip).Equals(other is MotorShip);
+            if (!res)
+            {
+                return res;
+            }
+            if(pipe != other.pipe)
+            {
+                return false;
+            }
+            if(boats != other.boats)
+            {
+                return false;
+            }
+            if(selfColor != other.selfColor)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj == null)
+            {
+                return false;
+            }
+            UltaMegaBuffSuperMotorShip megaShipObj = obj as UltaMegaBuffSuperMotorShip;
+            if(megaShipObj == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals((UltaMegaBuffSuperMotorShip)megaShipObj);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
     }
 }

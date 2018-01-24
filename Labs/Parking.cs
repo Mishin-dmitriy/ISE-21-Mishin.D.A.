@@ -194,5 +194,9 @@ namespace laba2
             }
             return true;
         }
+        public void Sort()
+        {
+            parkingStages.Sort();
+        }
     }
 }
