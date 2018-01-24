@@ -10,120 +10,66 @@ using System.Windows.Forms;
 
 namespace laba2
 {
-    public partial class Form1 : Form
-    {
-        Color color;
-        Color dopColor;
-        int maxSpeed;
-        int weight;
-		int maxCountPass;
+	public partial class Form1 : Form
+	{
+		Parking parking;
 
-		private ITransport trasport;
-
-
-        public Form1()
-        {
-            color = Color.Blue;
-            dopColor = Color.Gray;
-            InitializeComponent();
-            maxSpeed = 150;
-			weight = 150;
-			maxCountPass = 4;
-			Weight.Text = "" + weight;
-            Speed.Text = "" + maxSpeed;
-			Passengers.Text = "" + maxCountPass;
-        }
-		private bool checkFields()
+		public Form1()
 		{
-			if (!int.TryParse(Speed.Text, out maxSpeed))
-			{
-				return false;
-			}
-			if (!int.TryParse(Passengers.Text, out maxCountPass))
-			{
-				return false;
-			}
-			if (!int.TryParse(Weight.Text, out weight))
-			{
-				return false;
-			}
-			return true;
+			InitializeComponent();
+			parking = new Parking();
+			Draw();
 		}
 
+		private void Draw()
+		{
+			Bitmap bmp = new Bitmap(pictureBoxParking.Width, pictureBoxParking.Height);
+			Graphics gr = Graphics.FromImage(bmp);
+			parking.Draw(gr, pictureBoxParking.Width, pictureBoxParking.Height);
+			pictureBoxParking.Image = bmp;
+		}
 
-
-
-
-
+		private void buttonSetCar_Click(object sender, EventArgs e)
+		{
+			ColorDialog dialog = new ColorDialog();
+			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				var car = new MotorShip(100, 4, 1000, dialog.Color);
+				int place = parking.PutShipInParking(car);
+				Draw();
+				MessageBox.Show("Вашеместо: " + (place + 1));
+			}
+		}
 
 		private void button1_Click(object sender, EventArgs e)
-        {
+		{
 
-            if (checkFields())
+			if (maskedTextBox1.Text != "")
+			{
+				ITransport car = parking.GetShipInParking(((Convert.ToInt32(maskedTextBox1.Text)) - 1));
+
+				Bitmap bmp = new Bitmap(pictureBoxTakeCar.Width, pictureBoxTakeCar.Height);
+				Graphics gr = Graphics.FromImage(bmp);
+				car.sePosition(0, 100);
+				car.drawShip(gr);
+				pictureBoxTakeCar.Image = bmp;
+				Draw();
+			}
+		}
+
+        private void buttonSetSportCar_Click_1(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-				trasport = new MotorShip(maxSpeed,maxCountPass,weight,color);
-                Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-				trasport.drawShip(gr);
-                pictureBox1.Image = bmp;
-            }
-            
-
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (checkFields())
-            {
-				trasport = new UltaMegaBuffSuperMotorShip(maxSpeed, maxCountPass, weight, color,
-					true,true, dopColor);
-                Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-				trasport.drawShip(gr);
-				pictureBox1.Image = bmp;
-            }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (trasport != null) {
-                Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-				trasport.moveShip(gr);
-				pictureBox1.Image = bmp;
-
-            }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                color = cd.Color;
-                button4.BackColor = color;
-            }
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                dopColor = cd.Color;
-                button5.BackColor = dopColor;
+                ColorDialog dialogDop = new ColorDialog();
+                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var car = new UltaMegaBuffSuperMotorShip(100, 4, 1000, dialog.Color, true, true, dialogDop.Color);
+                    int place = parking.PutShipInParking(car);
+                    Draw();
+                    MessageBox.Show("Вашеместо: " + (place + 1));
+                }
             }
         }
     }
