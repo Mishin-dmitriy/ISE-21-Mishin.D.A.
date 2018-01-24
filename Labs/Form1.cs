@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +15,7 @@ namespace laba2
     {
         Parking port;
         additionalForm addiForm;
-
+        Logger logger;
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace laba2
             }
             listBox1.SelectedIndex = port.getCurentLvl;
             Draw();
+            logger = LogManager.GetCurrentClassLogger();
 
         }
 
@@ -39,40 +41,6 @@ namespace laba2
             }
         }
 
-
-
-
-
-        private void putBoatInDock_Click(object sender, EventArgs e)
-        {
-            ColorDialog colDialog = new ColorDialog();
-            if (colDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                var boat = new MotorShip(100, 4, 1000, colDialog.Color);
-                int place = port.PutShipInParking(boat);
-                Draw();
-                MessageBox.Show("Судно в доке с номером:" + (place+1));
-
-            }
-        }
-
-        private void putShipInDock_Click(object sender, EventArgs e)
-        {
-            ColorDialog colDialog = new ColorDialog();
-            if (colDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    var sail_boat = new UltaMegaBuffSuperMotorShip(100, 4, 1000, colDialog.Color, true, true, dialogDop.Color);
-                    int place = port.PutShipInParking(sail_boat);
-                    Draw();
-                    MessageBox.Show("Парусник в доке с номером:" + (place+1));
-                }
-
-            }
-        }
-
         private void TakeBoat_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedIndex > -1)
@@ -80,19 +48,27 @@ namespace laba2
                 string stage = listBox1.Items[listBox1.SelectedIndex].ToString();
                 if (maskedTextBox1.Text != "")
                 {
-                    var boat = port.GetShipInParking(Convert.ToInt32(maskedTextBox1.Text)-1);
-                    if (boat != null)
+                    try
                     {
+                        ITransport ship = port.GetShipInParking(Convert.ToInt32(maskedTextBox1.Text) - 1);
                         Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
                         Graphics gr = Graphics.FromImage(bmp);
-                        boat.sePosition(0, 80);
-                        boat.drawShip(gr);
+                        ship.sePosition(0, 80);
+                        ship.drawShip(gr);
                         pictureBox2.Image = bmp;
                         Draw();
+                        logger.Info("Корабль забран с места: " + Convert.ToInt32(maskedTextBox1.Text) +
+                            ". На уровне: " + port.getCurentLvl);
                     }
-                    else
+                    catch (DockIndexOutOfRangeException ex)
                     {
-                        MessageBox.Show("Тут ничего нет");
+                        logger.Info(ex.Message);
+                        MessageBox.Show(ex.Message, "Неверный номер", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch(Exception ex)
+                    {
+                        logger.Info(ex.Message);
+                        MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -102,6 +78,7 @@ namespace laba2
         {
             port.lvlUp();
             listBox1.SelectedIndex = port.getCurentLvl;
+            logger.Info("Переход на уровень выше. Текущий уровень: " + port.getCurentLvl);
             Draw();
         }
 
@@ -110,11 +87,13 @@ namespace laba2
             port.lvlDown();
             listBox1.SelectedIndex = port.getCurentLvl;
             Draw();
+            logger.Info("Переход на уровень ниже. Текущий уровень: " + port.getCurentLvl);
         }
 
         private void orderBtn_Click(object sender, EventArgs e)
         {
             addiForm = new additionalForm();
+            logger.Info("Начато создание коробля");
             addiForm.AddEvent(addBoat);
             addiForm.Show();
         }
@@ -122,15 +101,22 @@ namespace laba2
         private void addBoat(ITransport boat) {
             if (boat != null)
             {
-                int place = port.PutShipInParking(boat);
-                if (place > -1)
+                try
                 {
+                    int place = port.PutShipInParking(boat);
                     Draw();
-                    MessageBox.Show("Ваше место:" + (place+1));
+                    MessageBox.Show("Ваше место:" + (place + 1));
+                    logger.Info("Корабль пришвартован на место: " + (place + 1));
                 }
-                else
+                catch (DockOverflowException ex)
                 {
-                    MessageBox.Show("Поставить не получилось");
+                    logger.Info(ex.Message);
+                    MessageBox.Show(ex.Message, "Ошибка переполнения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch(Exception ex)
+                {
+                    logger.Info(ex.Message);
+                    MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -141,11 +127,13 @@ namespace laba2
             {
                 if (port.SaveData(saveFileDialog1.FileName))
                 {
+                    logger.Info("Доки сохранены в файл: " + saveFileDialog1.FileName);
                     MessageBox.Show("Сохранение прошло успешно", "",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
+                    logger.Info("Неудалось сохранить доки в файл: " + saveFileDialog1.FileName);
                     MessageBox.Show("Не сохранилось", "",
                       MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -158,12 +146,14 @@ namespace laba2
             {
                 if (port.LoadData(openFileDialog1.FileName))
                 {
+                    logger.Info("Загружены доки из файла: " + openFileDialog1.FileName);
                     Draw();
                     MessageBox.Show("Загружено", "",
                       MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
+                    logger.Info("Неудалось загрузить доки из файла: " + openFileDialog1.FileName);
                     MessageBox.Show("Ошибка", "",
                       MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

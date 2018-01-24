@@ -35,7 +35,7 @@ namespace laba2
 		{
 			if(p.places.Count == p.maxCount)
             {
-                return -1;
+                throw new DockOverflowException();
             }
             for(int i = 0; i < p.places.Count; i++)
             {
@@ -57,7 +57,7 @@ namespace laba2
                 p.places.Remove(index);
                 return car;
             }
-            return p.defaultValue;
+            throw new DockIndexOutOfRangeException();
 		}
 
         public bool CheckFreePlace(int index)
