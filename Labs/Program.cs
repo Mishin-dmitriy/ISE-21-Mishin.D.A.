@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace laba2
 {
+    public delegate void myDel(laba2.ITransport ship);
     static class Program
     {
         /// <summary>

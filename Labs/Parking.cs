@@ -53,10 +53,11 @@ namespace laba2
             return parkingStages[curentLvl] - ticket;
 		}
 
-		public void Draw(Graphics g)
-		{
+
+        public void Draw(Graphics g)
+        {
             DrawMaking(g);
-            for(int i = 0; i < countPlaces; i++)
+            for (int i = 0; i < countPlaces; i++)
             {
                 var car = parkingStages[curentLvl][i];
                 if (car != null)
@@ -65,7 +66,7 @@ namespace laba2
                     car.drawShip(g);
                 }
             }
-		}
+        }
 
         private void DrawMaking(Graphics g)
         {
@@ -73,9 +74,9 @@ namespace laba2
             g.DrawString("L" + (curentLvl + 1), new Font("Arial", 30), new SolidBrush(Color.Black),
                 (countPlaces / 5) * placeSizeWidth + 50, 420);
             g.DrawRectangle(pen, 0, 0, (countPlaces / 5) * placeSizeWidth, 420);
-            for(int i = 0; i < countPlaces / 5; i++)
+            for (int i = 0; i < countPlaces / 5; i++)
             {
-                for(int j = 0; j < 6; ++j)
+                for (int j = 0; j < 6; ++j)
                 {
                     g.DrawLine(pen, i * placeSizeWidth, j * placeSizeHeight,
                         i * placeSizeWidth + 150, j * placeSizeHeight);
@@ -88,5 +89,5 @@ namespace laba2
                 g.DrawLine(pen, i * placeSizeWidth, 0, i * placeSizeWidth, 400);
             }
         }
-	}
+    }
 }

@@ -39,7 +39,6 @@
             this.previousBtn = new System.Windows.Forms.Button();
             this.nextBtn = new System.Windows.Forms.Button();
             this.orderBtn = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -140,30 +139,19 @@
             // 
             // orderBtn
             // 
-            this.orderBtn.Location = new System.Drawing.Point(930, 199);
+            this.orderBtn.Location = new System.Drawing.Point(930, 158);
             this.orderBtn.Name = "orderBtn";
-            this.orderBtn.Size = new System.Drawing.Size(75, 25);
+            this.orderBtn.Size = new System.Drawing.Size(75, 47);
             this.orderBtn.TabIndex = 8;
-            this.orderBtn.Text = "супер";
+            this.orderBtn.Text = "Заказать транспорт";
             this.orderBtn.UseVisualStyleBackColor = true;
             this.orderBtn.Click += new System.EventHandler(this.orderBtn_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(930, 158);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 25);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "простой";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 534);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.orderBtn);
             this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.previousBtn);
@@ -194,7 +182,6 @@
         private System.Windows.Forms.Button previousBtn;
         private System.Windows.Forms.Button nextBtn;
         private System.Windows.Forms.Button orderBtn;
-        private System.Windows.Forms.Button button1;
     }
 }
 
