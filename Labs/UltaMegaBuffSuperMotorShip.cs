@@ -21,6 +21,17 @@ namespace laba2
 			this.selfColor = selfColor;
         }
 
+        public UltaMegaBuffSuperMotorShip(string info) : base(info)
+        {
+            string[] strs = info.Split(';');
+            if(strs.Length == 7)
+            {
+                pipe = Convert.ToBoolean(strs[4]);
+                boats = Convert.ToBoolean(strs[5]);
+                selfColor = Color.FromName(strs[6]);
+            }
+        }
+
         public void SetDopColor(Color color)
         {
             selfColor = color;
@@ -47,6 +58,12 @@ namespace laba2
             Brush brus3 = new SolidBrush(Color.Red);
 
             g.FillEllipse(brus3, startX + 105, startY + 17, 20, 10);
+        }
+
+        public override string getInfo()
+        {
+            return MaxSpeed + ";" + MaxCountPassengers + ";" + Weight + ";" +
+                ColorBody.Name + ";" + pipe + ";" + boats + ";" + selfColor.Name;
         }
     }
 }
