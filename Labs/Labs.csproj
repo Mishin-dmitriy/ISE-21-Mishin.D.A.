@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{11AC6904-C158-48E8-BC53-DB57548FA593}</ProjectGuid>
+    <ProjectGuid>{BB2528BC-C215-4870-82F7-8CFE7E698BEE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Labs</RootNamespace>
-    <AssemblyName>Labs</AssemblyName>
+    <RootNamespace>labs</RootNamespace>
+    <AssemblyName>labs</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -45,14 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crane.cs" />
+    <Compile Include="Cutlets.cs" />
+    <Compile Include="Egg.cs" />
+    <Compile Include="Forcemeat.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Knife.cs" />
+    <Compile Include="Meat.cs" />
+    <Compile Include="MeatGrinder.cs" />
+    <Compile Include="Oil.cs" />
+    <Compile Include="Pan.cs" />
+    <Compile Include="Plate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spice.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
