@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{11AC6904-C158-48E8-BC53-DB57548FA593}</ProjectGuid>
+    <ProjectGuid>{BB2528BC-C215-4870-82F7-8CFE7E698BEE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Labs</RootNamespace>
-    <AssemblyName>Labs</AssemblyName>
+    <RootNamespace>labs</RootNamespace>
+    <AssemblyName>labs</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -51,8 +51,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ITransport.cs" />
+    <Compile Include="MotorShip.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ship.cs" />
+    <Compile Include="UltaMegaBuffSuperMotorShip.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
