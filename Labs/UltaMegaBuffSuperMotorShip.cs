@@ -21,8 +21,8 @@ namespace laba2
 			this.selfColor = selfColor;
         }
 
-		protected override void drawLightShip(Graphics g)
-		{
+        protected override void drawLightShip(Graphics g)
+        {
             base.drawLightShip(g);
             Brush brush1 = new SolidBrush(selfColor);
 
@@ -42,5 +42,7 @@ namespace laba2
 
             g.FillEllipse(brus3, startX + 105, startY + 17, 20, 10);
         }
-	}
+
+
+    }
 }
