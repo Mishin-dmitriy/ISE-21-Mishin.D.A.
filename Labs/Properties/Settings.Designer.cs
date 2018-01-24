@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace labs.Properties
+namespace Lab3sharpNEW.Properties
 {
 
 
