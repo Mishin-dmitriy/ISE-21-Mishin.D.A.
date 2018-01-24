@@ -113,6 +113,11 @@ namespace laba2
                     logger.Info(ex.Message);
                     MessageBox.Show(ex.Message, "Ошибка переполнения", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                catch(DockAlreadyHaveException ex)
+                {
+                    logger.Info(ex.Message);
+                    MessageBox.Show(ex.Message, "Ошибка повтора", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 catch(Exception ex)
                 {
                     logger.Info(ex.Message);
@@ -158,6 +163,12 @@ namespace laba2
                       MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            port.Sort();
+            Draw();
         }
     }
 }

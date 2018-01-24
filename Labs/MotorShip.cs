@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace laba2
 {
-    public class MotorShip : Ship
+    public class MotorShip : Ship, IComparable<MotorShip>, IEquatable<MotorShip>
     {
         public override int MaxSpeed
         {
@@ -97,6 +97,78 @@ namespace laba2
         public override void drawShip(Graphics g)
         {
 			drawLightShip(g);
+        }
+
+        public int CompareTo(MotorShip other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return MaxSpeed.CompareTo(other.MaxSpeed);
+            }
+            if (MaxCountPassengers != other.MaxCountPassengers)
+            {
+                return MaxCountPassengers.CompareTo(other.MaxCountPassengers);
+            }
+            if (Weight != other.Weight)
+            {
+                return Weight.CompareTo(other.Weight);
+            }
+            if (ColorBody != other.ColorBody)
+            {
+                ColorBody.Name.CompareTo(other.ColorBody.Name);
+            }
+            return 0;
+        }
+
+        public bool Equals(MotorShip other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (countPassengers != other.countPassengers)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (ColorBody != other.ColorBody)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            Ship shipObj = obj as MotorShip;
+            if (shipObj == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals((MotorShip)shipObj);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return MaxSpeed.GetHashCode();
         }
 
         protected virtual void drawLightShip(Graphics g)

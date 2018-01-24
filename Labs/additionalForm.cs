@@ -79,7 +79,7 @@ namespace laba2
             {
                 Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                 Graphics gr = Graphics.FromImage(bmp);
-                boat.sePosition(5,30);
+                boat.sePosition(5, 30);
                 boat.drawShip(gr);
                 pictureBox1.Image = bmp;
             }
