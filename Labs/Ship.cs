@@ -43,5 +43,10 @@ namespace laba2
             startX = x;
             startY = y;
         }
+
+        public void setMainColor(Color color)
+        {
+            ColorBody = color;
+        }
     }
 }
