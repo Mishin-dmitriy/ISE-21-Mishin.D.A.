@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="additionalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="additionalForm.Designer.cs">
+      <DependentUpon>additionalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClassArray.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

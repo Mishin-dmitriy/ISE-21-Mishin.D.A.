@@ -13,6 +13,7 @@ namespace laba2
     public partial class Form1 : Form
     {
         Parking port;
+        additionalForm addiForm;
 
         public Form1()
         {
@@ -55,7 +56,22 @@ namespace laba2
             }
         }
 
+        private void putShipInDock_Click(object sender, EventArgs e)
+        {
+            ColorDialog colDialog = new ColorDialog();
+            if (colDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ColorDialog dialogDop = new ColorDialog();
+                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var sail_boat = new UltaMegaBuffSuperMotorShip(100, 4, 1000, colDialog.Color, true, true, dialogDop.Color);
+                    int place = port.PutShipInParking(sail_boat);
+                    Draw();
+                    MessageBox.Show("Парусник в доке с номером:" + (place+1));
+                }
 
+            }
+        }
 
         private void TakeBoat_Click(object sender, EventArgs e)
         {
@@ -98,32 +114,24 @@ namespace laba2
 
         private void orderBtn_Click(object sender, EventArgs e)
         {
-            ColorDialog colDialog = new ColorDialog();
-            if (colDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    var sail_boat = new UltaMegaBuffSuperMotorShip(100, 4, 1000, colDialog.Color, true, true, dialogDop.Color);
-                    int place = port.PutShipInParking(sail_boat);
-                    Draw();
-                    MessageBox.Show("Парусник в доке с номером:" + (place + 1));
-                }
-
-            }
+            addiForm = new additionalForm();
+            addiForm.AddEvent(addBoat);
+            addiForm.Show();
         }
 
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        private void addBoat(ITransport boat) {
+            if (boat != null)
             {
-                var car = new MotorShip(100, 4, 1000, dialog.Color);
-                int place = port.PutShipInParking(car);
-                Draw();
-                MessageBox.Show("Вашеместо: " + (place + 1));
+                int place = port.PutShipInParking(boat);
+                if (place > -1)
+                {
+                    Draw();
+                    MessageBox.Show("Ваше место:" + (place+1));
+                }
+                else
+                {
+                    MessageBox.Show("Поставить не получилось");
+                }
             }
         }
     }
